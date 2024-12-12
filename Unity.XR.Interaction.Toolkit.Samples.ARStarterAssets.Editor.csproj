@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{EA89CC5A-B8C1-1CAB-8A19-C9244B56AE35}</ProjectGuid>
+    <ProjectGuid>{9973E159-A487-0FC9-4204-195BD998FE24}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Unity.XR.Interaction.Toolkit.Samples.ARStarterAssets.Editor</AssemblyName>

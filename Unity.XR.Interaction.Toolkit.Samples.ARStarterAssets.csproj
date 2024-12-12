@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{17560DCF-9362-124F-6DE2-BF258155201C}</ProjectGuid>
+    <ProjectGuid>{F8687583-1336-23BF-0D18-9697C7DD8814}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Unity.XR.Interaction.Toolkit.Samples.ARStarterAssets</AssemblyName>
@@ -761,7 +761,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Unity.XR.Interaction.Toolkit.Samples.StarterAssets.csproj">
-      <Project>{8E718664-2E31-1E7B-55BA-6C586F2163FE}</Project>
+      <Project>{5CAF6B18-8CEC-99D8-23C3-01747BF630EC}</Project>
       <Name>Unity.XR.Interaction.Toolkit.Samples.StarterAssets</Name>
     </ProjectReference>
   </ItemGroup>
