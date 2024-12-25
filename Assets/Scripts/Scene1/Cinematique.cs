@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class SwitchCameraOnTrigger : MonoBehaviour
 {
+    public float explosionForce = 10f;
+    public Transform playerRig;
+    public Transform explosionOrigin;
+
     [Header("Camera Settings")]
     public Camera rigCamera;         
     public Camera cinematicCamera;   
@@ -13,13 +17,12 @@ public class SwitchCameraOnTrigger : MonoBehaviour
 
     private bool isCinematicPlaying = false;
 
+    public MonoBehaviour ScriptDeplacement;
+
+
     private void Start()
     {
-
-        if (cinematicCamera != null)
-        {
-            cinematicCamera.gameObject.SetActive(false);
-        }
+        cinematicCamera.gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -34,29 +37,25 @@ public class SwitchCameraOnTrigger : MonoBehaviour
     {
         isCinematicPlaying = true;
 
-        if (rigCamera != null)
-        {
-            rigCamera.gameObject.SetActive(false);
-        }
+        rigCamera.gameObject.SetActive(false);
+        ScriptDeplacement.enabled = false;
 
-        if (cinematicCamera != null)
-        {
-            cinematicCamera.gameObject.SetActive(true);
-        }
+        cinematicCamera.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(cinematicDuration);
 
-        if (rigCamera != null)
-        {
-            rigCamera.gameObject.SetActive(true);
-        }
-
-        if (cinematicCamera != null)
-        {
-            cinematicCamera.gameObject.SetActive(false);
-        }
+        rigCamera.gameObject.SetActive(true);
+        cinematicCamera.gameObject.SetActive(false);        
 
         isCinematicPlaying = false;
+        ScriptDeplacement.enabled = true;
+
+        Vector3 direction = (playerRig.position - explosionOrigin.position).normalized;
+        Rigidbody rigRigidbody = playerRig.GetComponent<Rigidbody>();
+        
+        rigRigidbody.AddForce(direction * explosionForce, ForceMode.Impulse);
+        
+        Debug.Log("BOOM");
         Destroy(gameObject);
     }
 }
