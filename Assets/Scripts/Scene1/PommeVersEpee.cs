@@ -7,9 +7,7 @@ public class Trigger_pomme : MonoBehaviour{
     public GameObject swordToEnable;
 
     private void OnTriggerEnter(Collider other){
-        if(other.gameObject.tag=="hand"){
-            appleToDisable.SetActive(false);
-            swordToEnable.SetActive(true);
-        }
+        appleToDisable.SetActive(false);
+        swordToEnable.SetActive(true);
     }
 }
