@@ -19,6 +19,9 @@ public class SwitchCameraOnTrigger : MonoBehaviour
 
     public MonoBehaviour ScriptDeplacement;
 
+    public GameObject pomme;
+    public GameObject triggerPomme;
+    public GameObject slime;
 
     private void Start()
     {
@@ -54,6 +57,10 @@ public class SwitchCameraOnTrigger : MonoBehaviour
         Rigidbody rigRigidbody = playerRig.GetComponent<Rigidbody>();
         
         rigRigidbody.AddForce(direction * explosionForce, ForceMode.Impulse);
+
+        pomme.SetActive(true);
+        triggerPomme.SetActive(true);
+        slime.SetActive(true);
         
         Debug.Log("BOOM");
         Destroy(gameObject);
