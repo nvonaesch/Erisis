@@ -21,7 +21,7 @@ public class Opendoor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isOpening && currentAngle < targetAngle)
+        if (isOpening && currentAngle < targetAngle)
         {
             float rotationStep = rotationSpeed * Time.deltaTime;
             currentAngle += rotationStep;
