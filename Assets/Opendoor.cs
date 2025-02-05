@@ -25,7 +25,7 @@ public class Opendoor : MonoBehaviour
         {
             float rotationStep = rotationSpeed * Time.deltaTime;
             currentAngle += rotationStep;
-            door.transform.Rotate(0f, rotationStep, 0f);
+            door.transform.Rotate(0f, -rotationStep, 0f);
             if(currentAngle>= targetAngle ) {
                 isOpening= false;
             }
