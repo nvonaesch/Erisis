@@ -6,11 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class Death : MonoBehaviour
 {
+    public Camera cinematicCamera;
+    public float cinematicDuration = 5f;
+    private bool isCinematicPlaying = false;
     public Scene Scene1;
     // Start is called before the first frame update
     void Start()
     {
-        
+        cinematicCamera.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -21,6 +24,24 @@ public class Death : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        SceneManager.LoadScene("Scene1");
+        if (isCinematicPlaying == false)
+        {
+            StartCoroutine(Cinematic());
+        }
+        
     }
+
+    private IEnumerator Cinematic()
+    {
+        isCinematicPlaying = true;
+        
+        cinematicCamera.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(cinematicDuration);
+
+        cinematicCamera.gameObject.SetActive(false);
+        SceneManager.LoadScene("Scene1");
+        isCinematicPlaying = false;
+    }
+
 }
