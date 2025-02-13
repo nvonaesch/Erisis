@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class RedZoneView2 : MonoBehaviour
 {
@@ -8,16 +9,38 @@ public class RedZoneView2 : MonoBehaviour
     [Range(0, 360)]
     public float angle;
 
+    public int segments = 20;
+
     public GameObject playerRef;
 
     public LayerMask targetMask;
     public LayerMask obstructionMask;
 
     public bool canSeePlayer;
+    private LineRenderer lineRenderer;
+    private MeshFilter meshFilter;
+    private MeshRenderer meshRenderer;
+    private Mesh mesh;
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(FOVRoutine());
+
+        lineRenderer = gameObject.AddComponent<LineRenderer>();
+        lineRenderer.startWidth = 0.1f;
+        lineRenderer.endWidth = 0.1f;
+        lineRenderer.positionCount = 4; // Deux lignes + le centre
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.startColor = Color.yellow;
+        lineRenderer.endColor = Color.yellow;
+
+        meshFilter = gameObject.AddComponent<MeshFilter>();
+        meshRenderer = gameObject.AddComponent<MeshRenderer>();
+        meshRenderer.material = new Material(Shader.Find("Standard"));
+        mesh = new Mesh();
+        meshFilter.mesh = mesh;
+        
+
     }
 
     private IEnumerator FOVRoutine()
@@ -60,10 +83,11 @@ public class RedZoneView2 : MonoBehaviour
     private Vector3 DirectionFromAngle(float eulerY, float angleInDegrees)
     {
         angleInDegrees += eulerY;
+        
 
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
     }
-    private void OnDrawGizmos()
+ /*   private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, radius);
@@ -80,21 +104,60 @@ public class RedZoneView2 : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawLine(transform.position, playerRef.transform.position);
         }
-    }
+    }*/
     void DrawFieldOfView()
     {
         Vector3 frontLeft = DirectionFromAngle(transform.eulerAngles.y, -angle / 2) * radius;
         Vector3 frontRight = DirectionFromAngle(transform.eulerAngles.y, angle / 2) * radius;
 
-        // Dessiner les limites de l'angle du champ de vision (ligne jaune)
-        Debug.DrawLine(transform.position, transform.position + frontLeft, Color.yellow);
-        Debug.DrawLine(transform.position, transform.position + frontRight, Color.yellow);
 
-        // Si le joueur est visible, dessiner une ligne rouge
-        if (canSeePlayer)
+        //lineRenderer.SetPosition(0,transform.position);
+        //lineRenderer.SetPosition(1, transform.position + frontLeft);
+        //lineRenderer.SetPosition(2, transform.position + frontRight);
+        //lineRenderer.SetPosition(3, transform.position);
+        
+        int stepCounts = segments + 1;
+        float stepAngleSize = angle / (float)segments;
+        List<Vector3> vertices = new List<Vector3> { Vector3.zero }; // Point central du cône
+        List<int> triangles = new List<int>();
+        for (int i = 0; i <= stepCounts; i++)
         {
-            Debug.DrawLine(transform.position, playerRef.transform.position, Color.red);
+            float currentAngle = -angle / 2 + stepAngleSize * i;
+            Vector3 vertex = DirectionFromAngle(transform.eulerAngles.y, currentAngle) * radius;
+            vertices.Add(vertex.normalized * radius * (1 / transform.localScale.x));
         }
+        /*for (int i = 1; i < vertices.Count; i++)
+        {
+            vertices[i] *= radius;
+        }*/
+        for (int i = 1; i < vertices.Count - 1; i++)
+        {
+            triangles.Add(0);
+            triangles.Add(i);
+            triangles.Add(i + 1);
+        }
+        mesh.Clear();
+        mesh.vertices = vertices.ToArray();
+        mesh.triangles = triangles.ToArray();
+        mesh.RecalculateNormals();
+
+        meshRenderer.material.color = canSeePlayer ? new Color(1f, 0f, 0f, 0.5f) : new Color(1f, 1f, 0f, 0.5f);
+
+        // Dessiner les limites de l'angle du champ de vision (ligne jaune)
+        Debug.DrawLine(transform.position, transform.position + frontLeft, Color.yellow,100f);
+        Debug.DrawLine(transform.position, transform.position + frontRight, Color.yellow,100f);
+        Debug.DrawLine(new Vector3(52,1,58),new Vector3(52,1,100),Color.yellow,100f);
+        // Si le joueur est visible, dessiner une ligne rouge
+        /*if (canSeePlayer)
+        {
+            lineRenderer.startColor= Color.red;
+            lineRenderer.endColor= Color.red;
+        }
+        else
+        {
+            lineRenderer.startColor= Color.yellow;
+            lineRenderer.endColor= Color.yellow;
+        }*/
     }
     void Update()
     {
