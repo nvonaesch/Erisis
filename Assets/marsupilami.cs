@@ -14,6 +14,7 @@ public class marsupilami : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        buzz.transform.Rotate(0, 90f, 0);
+        buzz.transform.Rotate(0, 45f, 0);
+
     }
 }
