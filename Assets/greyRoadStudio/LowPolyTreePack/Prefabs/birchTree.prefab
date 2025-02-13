@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 33224392903533496}
   - component: {fileID: 23381703070316340}
   - component: {fileID: 64588758267247970}
-  - component: {fileID: 8276274326412828745}
   m_Layer: 0
   m_Name: birchTree
   m_TagString: Untagged
@@ -29,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1250690161900600}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.5972943, y: -0.56, z: -1.1176782}
+  m_LocalPosition: {x: -7.5972943, y: 0, z: -1.1176782}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -108,26 +107,3 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: bf854a44f4078f841a91c4fdfa36277a, type: 3}
---- !u!136 &8276274326412828745
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1250690161900600}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.28
-  m_Height: 9.328223
-  m_Direction: 1
-  m_Center: {x: 0.03782022, y: 4.6641116, z: 0.03301835}
