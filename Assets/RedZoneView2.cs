@@ -118,7 +118,7 @@ public class RedZoneView2 : MonoBehaviour
         
         int stepCounts = segments + 1;
         float stepAngleSize = angle / (float)segments;
-        List<Vector3> vertices = new List<Vector3> { Vector3.zero }; // Point central du cône
+        List<Vector3> vertices = new List<Vector3> { Vector3.up * 2f }; // Point central du cône
         List<int> triangles = new List<int>();
         for (int i = 0; i <= stepCounts; i++)
         {
@@ -146,10 +146,11 @@ public class RedZoneView2 : MonoBehaviour
         // Dessiner les limites de l'angle du champ de vision (ligne jaune)
         Debug.DrawLine(transform.position, transform.position + frontLeft, Color.yellow,100f);
         Debug.DrawLine(transform.position, transform.position + frontRight, Color.yellow,100f);
+        //*10 ajouté
         Debug.DrawLine(new Vector3(52,1,58),new Vector3(52,1,100),Color.yellow,100f);
         // Si le joueur est visible, dessiner une ligne rouge
         /*if (canSeePlayer)
-        {
+        {ZZZZZZZS
             lineRenderer.startColor= Color.red;
             lineRenderer.endColor= Color.red;
         }
