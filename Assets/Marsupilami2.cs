@@ -16,6 +16,7 @@ public class Marsupilami2 : MonoBehaviour
     public GameObject playerRef;
 
     public bool canSeePlayer;
+    public bool hasRotated = false;
 
     public LayerMask targetMask;
     public LayerMask obstructionMask;
@@ -122,16 +123,21 @@ public class Marsupilami2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*buzz.transform.Translate. = new Vector3(Vector3.forward*Time.deltaTime * Speed);
+        buzz.transform.Translate(Vector3.forward*Time.deltaTime * Speed);
         if(buzz.transform.position.z > 80)
         {
-            buzz.transform.Translate = -Vector3.forward*Time.deltaTime*Speed;
+            Speed = -Mathf.Abs(Speed);
+            //buzz.transform.Rotate(0, 180, 0);
+            hasRotated= true;
         }
         if (buzz.transform.position.z < 65)
         {
-            buzz.transform.Translate = Vector3.forward*Time.deltaTime*Speed;
-        }*/
-        buzz.transform.Rotate(0, 2f, 0);
+            Speed = Mathf.Abs(Speed);
+            //buzz.transform.Rotate(0, 180, 0);
+            hasRotated= true;
+        }
+        //buzz.transform.Rotate(0, 2f, 0);
+        hasRotated = false;
         DrawFieldOfView();
     }
 }

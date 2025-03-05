@@ -45,6 +45,7 @@ public class Death2 : MonoBehaviour
         cinematicCamera.gameObject.SetActive(false);
 
         DontDestroyOnLoad(player.gameObject);
+        DontDestroyOnLoad(player.gameObject);
 
         SceneManager.LoadScene("Scene1", LoadSceneMode.Single);
         
