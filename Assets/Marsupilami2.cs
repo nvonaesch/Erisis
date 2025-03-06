@@ -6,6 +6,7 @@ public class Marsupilami2 : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject buzz;
+    public GameObject center;
     public float radius;
     [Range(0, 360)]
     public float angle;
@@ -33,6 +34,7 @@ public class Marsupilami2 : MonoBehaviour
         meshRenderer.material = new Material(Shader.Find("Standard"));
         mesh = new Mesh();
         meshFilter.mesh = mesh;
+        DrawFieldOfView();
     }
 
     private IEnumerator FOVRoutine()
@@ -61,12 +63,15 @@ public class Marsupilami2 : MonoBehaviour
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                 {
                     canSeePlayer = true;
+                    DrawFieldOfView();
                 }
                 else
                     canSeePlayer = false;
+                    DrawFieldOfView();
             }
             else
                 canSeePlayer = false;
+                DrawFieldOfView();
         }
         else if (canSeePlayer)
         {
@@ -124,20 +129,39 @@ public class Marsupilami2 : MonoBehaviour
     void Update()
     {
         buzz.transform.Translate(Vector3.forward*Time.deltaTime * Speed);
-        if(buzz.transform.position.z > 80)
+        if (!hasRotated)
         {
-            Speed = -Mathf.Abs(Speed);
-            //buzz.transform.Rotate(0, 180, 0);
-            hasRotated= true;
+            if (center.transform.position.z > 80)
+            {
+                StartCoroutine(demiTourRoutine());
+                Debug.Log("jsuis sorti 1 ");
+            }
+            else if (center.transform.position.z <= 65 )
+            {
+                StartCoroutine(demiTourRoutine());
+                Debug.Log("jsuis sorti 2 ");
+            }
         }
-        if (buzz.transform.position.z < 65)
-        {
-            Speed = Mathf.Abs(Speed);
-            //buzz.transform.Rotate(0, 180, 0);
-            hasRotated= true;
-        }
-        //buzz.transform.Rotate(0, 2f, 0);
-        hasRotated = false;
-        DrawFieldOfView();
+        //DrawFieldOfView();
+        
     }
+    private IEnumerator demiTourRoutine()
+    {
+        hasRotated = true;
+        WaitForSeconds wait = new WaitForSeconds(1f);
+        Debug.Log("frr jsuis dedans");
+        yield return wait;
+        buzz.transform.rotation *= Quaternion.Euler(0f, 180, 0f);
+        yield return wait;
+        hasRotated = false;
+        //yield break;
+        
+    }
+    /*private void OnTriggerEnter(Collider other)
+    {
+        if(other = "Buzzrotate")
+        {
+            buzz.transform.rotation *= Quaternion.Euler(0f, 180, 0f);
+        }
+    }*/
 }
