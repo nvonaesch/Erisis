@@ -118,12 +118,12 @@ public class RedZoneView2 : MonoBehaviour
         
         int stepCounts = segments + 1;
         float stepAngleSize = angle / (float)segments;
-        List<Vector3> vertices = new List<Vector3> { Vector3.up * 2f }; // Point central du cône
+        List<Vector3> vertices = new List<Vector3> { Vector3.up * 2.5f }; // Point central du cône
         List<int> triangles = new List<int>();
         for (int i = 0; i <= stepCounts; i++)
         {
             float currentAngle = -angle / 2 + stepAngleSize * i;
-            Vector3 vertex = DirectionFromAngle(transform.eulerAngles.y, currentAngle) * radius;
+            Vector3 vertex = DirectionFromAngle(transform.eulerAngles.y, currentAngle) * radius + (Vector3.up * 0.7f);
             vertices.Add(vertex.normalized * radius * (1 / transform.localScale.x));
         }
         /*for (int i = 1; i < vertices.Count; i++)
@@ -141,7 +141,15 @@ public class RedZoneView2 : MonoBehaviour
         mesh.triangles = triangles.ToArray();
         mesh.RecalculateNormals();
 
-        meshRenderer.material.color = canSeePlayer ? new Color(1f, 0f, 0f, 0.5f) : new Color(1f, 1f, 0f, 0.5f);
+        if (canSeePlayer)
+        {
+            meshRenderer.material.color = Color.red;
+        }
+        else
+        {
+            meshRenderer.material.color = Color.yellow;
+        }
+        
 
         // Dessiner les limites de l'angle du champ de vision (ligne jaune)
         Debug.DrawLine(transform.position, transform.position + frontLeft, Color.yellow,100f);

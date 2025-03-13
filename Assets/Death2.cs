@@ -11,6 +11,7 @@ public class Death2 : MonoBehaviour
     public float cinematicDuration = 5f;
     private bool isCinematicPlaying = false;
     public Scene Scene1;
+    public GameObject player;
     void Start()
     {
         cinematicCamera.gameObject.SetActive(false);
@@ -27,6 +28,8 @@ public class Death2 : MonoBehaviour
         if (isCinematicPlaying == false)
         {
             StartCoroutine(Cinematic());
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName("Scene1"));
+            SceneManager.UnloadSceneAsync("Scene2");
         }
 
     }
@@ -40,7 +43,14 @@ public class Death2 : MonoBehaviour
         yield return new WaitForSeconds(cinematicDuration);
 
         cinematicCamera.gameObject.SetActive(false);
-        SceneManager.LoadScene("Scene1");
+
+        DontDestroyOnLoad(player.gameObject);
+        DontDestroyOnLoad(player.gameObject);
+
+        SceneManager.LoadScene("Scene1", LoadSceneMode.Single);
+        
+        
+
         isCinematicPlaying = false;
     }
 
