@@ -25,6 +25,8 @@ public class Marsupilami2 : MonoBehaviour
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
     private Mesh mesh;
+    public GameObject targetObject1;
+    public GameObject targetObject2;
     void Start()
     {
         StartCoroutine(FOVRoutine());
@@ -67,11 +69,11 @@ public class Marsupilami2 : MonoBehaviour
                 }
                 else
                     canSeePlayer = false;
-                    DrawFieldOfView();
+                    //DrawFieldOfView();
             }
             else
                 canSeePlayer = false;
-                DrawFieldOfView();
+                //DrawFieldOfView();
         }
         else if (canSeePlayer)
         {
@@ -129,39 +131,25 @@ public class Marsupilami2 : MonoBehaviour
     void Update()
     {
         buzz.transform.Translate(Vector3.forward*Time.deltaTime * Speed);
-        if (!hasRotated)
+        
+        
+    }
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject == targetObject1 || other.gameObject == targetObject2)
         {
-            if (center.transform.position.z > 80)
-            {
-                StartCoroutine(demiTourRoutine());
-                Debug.Log("jsuis sorti 1 ");
-            }
-            else if (center.transform.position.z <= 65 )
-            {
-                StartCoroutine(demiTourRoutine());
-                Debug.Log("jsuis sorti 2 ");
-            }
+            Debug.Log("n3ardinmouk");
+            buzz.transform.rotation *= Quaternion.Euler(0f,180f, 0f);
+            Debug.Log(center.transform.position);
+            StartCoroutine(UpdateFOVNextFrame());
         }
+        
+    }
+    private IEnumerator UpdateFOVNextFrame()
+    {
+        yield return null; // Attendre une frame
         //DrawFieldOfView();
-        
+        Debug.Log(center.transform.position);// Recalculer avec la nouvelle rotation
     }
-    private IEnumerator demiTourRoutine()
-    {
-        hasRotated = true;
-        WaitForSeconds wait = new WaitForSeconds(1f);
-        Debug.Log("frr jsuis dedans");
-        yield return wait;
-        buzz.transform.rotation *= Quaternion.Euler(0f, 180, 0f);
-        yield return wait;
-        hasRotated = false;
-        //yield break;
-        
-    }
-    /*private void OnTriggerEnter(Collider other)
-    {
-        if(other = "Buzzrotate")
-        {
-            buzz.transform.rotation *= Quaternion.Euler(0f, 180, 0f);
-        }
-    }*/
 }
