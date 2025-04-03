@@ -69,43 +69,30 @@ public class Marsupilami2 : MonoBehaviour
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                 {
                     canSeePlayer = true;
-                    if(alert <= 100)
-                    {
-                        alert += 5;
-                    }
-                                           
-                    //DrawFieldOfView();
                 }
                 else
                 {
-                    if (alert > 0)
-                    {
-                        alert--;
-                    }
                     canSeePlayer = false;
-                    //DrawFieldOfView();
                 }
             }
             else
             {
-                if (alert > 0)
-                {
-                    alert--;
-                }
                 canSeePlayer = false;
-                //DrawFieldOfView();
             }
         }
         else if (canSeePlayer)
         {
-            if (alert > 0)
-            {
-                alert--;
-            }
             canSeePlayer = false;
-            //mpb.SetColor("_Color", Color.yellow);
-            //meshRenderer.SetPropertyBlock(mpb);
         }
+        if(canSeePlayer && alert<100)
+        {
+            alert += 5;
+        }
+        if(!canSeePlayer && alert>0)
+        {
+            alert--;
+        }
+        
         if (alert >= 100)
         {
             mpb.SetColor("_Color", Color.red);
@@ -193,8 +180,7 @@ public class Marsupilami2 : MonoBehaviour
     }
     private IEnumerator UpdateFOVNextFrame()
     {
-        yield return null; // Attendre une frame
-        //DrawFieldOfView();
-        Debug.Log(center.transform.position);// Recalculer avec la nouvelle rotation
+        yield return null; 
+        Debug.Log(center.transform.position);
     }
 }

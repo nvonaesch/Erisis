@@ -30,6 +30,7 @@ public class MenuController : MonoBehaviour
             }
         }
     }
+   
     public void PauseGame(){
         mainMenu.SetActive(true);
         Time.timeScale = 0f;
@@ -55,6 +56,7 @@ public class MenuController : MonoBehaviour
         optionsGame.SetActive(false);
     } 
     public void QuitButton(){
-        Application.Quit();
+        DontDestroyOnLoad(player.gameObject);
+        SceneManager.LoadScene("Main_Menu", LoadSceneMode.Single);
     } 
 }
