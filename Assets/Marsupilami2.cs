@@ -16,6 +16,9 @@ public class Marsupilami2 : MonoBehaviour
     
     public GameObject playerRef;
 
+    [Range(0, 100)]
+    public float alert;
+
     public bool canSeePlayer;
     public bool hasRotated = false;
 
@@ -52,7 +55,8 @@ public class Marsupilami2 : MonoBehaviour
     private void FieldOfViewCheck()
     {
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
-
+        MaterialPropertyBlock mpb = new MaterialPropertyBlock();
+        meshRenderer.GetPropertyBlock(mpb);
         if (rangeChecks.Length != 0)
         {
             Transform target = rangeChecks[0].transform;
@@ -65,20 +69,51 @@ public class Marsupilami2 : MonoBehaviour
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                 {
                     canSeePlayer = true;
-                    DrawFieldOfView();
+                    alert += 5;
+                    if (alert >= 100)
+                    {
+                        mpb.SetColor("_Color", Color.red);
+                        meshRenderer.SetPropertyBlock(mpb);
+                    }
+                    if (50 <= alert && alert < 100)
+                    {
+                        Color orange = new Color(1.0f, 0.5f, 0.0f);
+                        mpb.SetColor("_Color", orange);
+                        meshRenderer.SetPropertyBlock(mpb);
+                    }
+                    else
+                    {
+                        mpb.SetColor("_Color", Color.yellow);
+                    }
+                        
+                    //DrawFieldOfView();
                 }
                 else
+                {
+                    alert--;
                     canSeePlayer = false;
+                    mpb.SetColor("_Color", Color.yellow);
+                    meshRenderer.SetPropertyBlock(mpb);
                     //DrawFieldOfView();
+                }
             }
             else
+            {
+                alert--;
                 canSeePlayer = false;
+                mpb.SetColor("_Color", Color.yellow);
+                meshRenderer.SetPropertyBlock(mpb);
                 //DrawFieldOfView();
+            }
         }
         else if (canSeePlayer)
         {
+            alert--;
             canSeePlayer = false;
+            mpb.SetColor("_Color", Color.yellow);
+            meshRenderer.SetPropertyBlock(mpb);
         }
+
     }
 
     private Vector3 DirectionFromAngle(float eulerY, float angleInDegrees)
@@ -115,23 +150,24 @@ public class Marsupilami2 : MonoBehaviour
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
         mesh.RecalculateNormals();
-
+        MaterialPropertyBlock mpb = new MaterialPropertyBlock();
+        meshRenderer.GetPropertyBlock(mpb);
         if (canSeePlayer)
         {
-            meshRenderer.material.color = Color.red;
+            mpb.SetColor("_Color", Color.red);
         }
         else
         {
-            meshRenderer.material.color = Color.yellow;
+            mpb.SetColor("_Color", Color.yellow);
         }
-        
+        meshRenderer.SetPropertyBlock(mpb);
+
     }
 
     // Update is called once per frame
     void Update()
     {
         buzz.transform.Translate(Vector3.forward*Time.deltaTime * Speed);
-        
         
     }
     

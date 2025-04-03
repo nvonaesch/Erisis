@@ -8,18 +8,42 @@ public class MenuController : MonoBehaviour
     public GameObject mainMenu;
     public GameObject contextGame;
     public GameObject optionsGame;
+    public GameObject player;
+    public bool isPaused;
 
     public void Start(){
-        mainMenu.SetActive(true);
+        mainMenu.SetActive(false);
         contextGame.SetActive(false);
         optionsGame.SetActive(false);
     }
 
-    public void PlayButton(){
+    public void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.Escape)) {
+            if(isPaused)
+            {
+                ResumeGame();
+            }
+            else
+            {
+                PauseGame();
+            }
+        }
+    }
+    public void PauseGame(){
+        mainMenu.SetActive(true);
+        Time.timeScale = 0f;
+        isPaused= true;
+        //contextGame.SetActive(true);
+    }
+    public void ResumeGame()
+    {
         mainMenu.SetActive(false);
-        contextGame.SetActive(true);
+        Time.timeScale = 1f;
+        isPaused= false;
     }
     public void NextButton(){
+        DontDestroyOnLoad(player.gameObject);
         SceneManager.LoadScene("Scene1");
     } 
     public void OptionsButton(){
