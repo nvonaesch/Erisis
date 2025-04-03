@@ -69,47 +69,56 @@ public class Marsupilami2 : MonoBehaviour
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                 {
                     canSeePlayer = true;
-                    alert += 5;
-                    if (alert >= 100)
+                    if(alert <= 100)
                     {
-                        mpb.SetColor("_Color", Color.red);
-                        meshRenderer.SetPropertyBlock(mpb);
+                        alert += 5;
                     }
-                    if (50 <= alert && alert < 100)
-                    {
-                        Color orange = new Color(1.0f, 0.5f, 0.0f);
-                        mpb.SetColor("_Color", orange);
-                        meshRenderer.SetPropertyBlock(mpb);
-                    }
-                    else
-                    {
-                        mpb.SetColor("_Color", Color.yellow);
-                    }
-                        
+                                           
                     //DrawFieldOfView();
                 }
                 else
                 {
-                    alert--;
+                    if (alert > 0)
+                    {
+                        alert--;
+                    }
                     canSeePlayer = false;
-                    mpb.SetColor("_Color", Color.yellow);
-                    meshRenderer.SetPropertyBlock(mpb);
                     //DrawFieldOfView();
                 }
             }
             else
             {
-                alert--;
+                if (alert > 0)
+                {
+                    alert--;
+                }
                 canSeePlayer = false;
-                mpb.SetColor("_Color", Color.yellow);
-                meshRenderer.SetPropertyBlock(mpb);
                 //DrawFieldOfView();
             }
         }
         else if (canSeePlayer)
         {
-            alert--;
+            if (alert > 0)
+            {
+                alert--;
+            }
             canSeePlayer = false;
+            //mpb.SetColor("_Color", Color.yellow);
+            //meshRenderer.SetPropertyBlock(mpb);
+        }
+        if (alert >= 100)
+        {
+            mpb.SetColor("_Color", Color.red);
+            meshRenderer.SetPropertyBlock(mpb);
+        }
+        if (50 <= alert && alert < 100)
+        {
+            Color orange = new Color(1.0f, 0.5f, 0.0f);
+            mpb.SetColor("_Color", orange);
+            meshRenderer.SetPropertyBlock(mpb);
+        }
+        else if(alert < 50)
+        {
             mpb.SetColor("_Color", Color.yellow);
             meshRenderer.SetPropertyBlock(mpb);
         }
