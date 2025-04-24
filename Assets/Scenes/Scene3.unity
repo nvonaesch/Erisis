@@ -441,7 +441,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 100000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -468,13 +468,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1550019360}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.28449586, y: -0, z: -0, w: 0.9586773}
-  m_LocalPosition: {x: 0, y: 309, z: 1320}
+  m_LocalRotation: {x: -0.014039565, y: 0.97242135, z: -0.22951071, w: -0.03904438}
+  m_LocalPosition: {x: 0, y: 309, z: 2290}
   m_LocalScale: {x: 1, y: 1.1282, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 33.057, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 26.581, y: 184.457, z: -0.601}
 --- !u!1 &1640297705
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,7 +761,7 @@ Transform:
   m_GameObject: {fileID: 681007229990540014}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -10.008972, y: 27.68, z: 1849.2338}
+  m_LocalPosition: {x: 0, y: 28, z: 1849.2338}
   m_LocalScale: {x: 45.48, y: 45.48, z: 45.48}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -788,6 +788,7 @@ GameObject:
   - component: {fileID: 160085436289468500}
   - component: {fileID: 681007229990540016}
   - component: {fileID: 681007229990540015}
+  - component: {fileID: 681007229990540017}
   m_Layer: 0
   m_Name: barqueChyron
   m_TagString: Untagged
@@ -817,7 +818,7 @@ MonoBehaviour:
   displacementAmount: 6
   waterDrag: 3
   waterAngularDrag: 60
-  forwardSpeed: -43
+  forwardSpeed: -77.8
   waterLevel: 27
 --- !u!54 &681007229990540016
 Rigidbody:
@@ -846,6 +847,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &681007229990540017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681007229990540014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 208b8fd21577fc04f8f3011892795b26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetObject: {fileID: 681007229990540014}
+  moveDistance: 15
 --- !u!4 &1339642500685539352
 Transform:
   m_ObjectHideFlags: 0
