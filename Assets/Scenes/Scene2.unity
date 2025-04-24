@@ -5327,7 +5327,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 10ad25d2a0092364982a840c1438ff01, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -6925,7 +6925,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee855884122cd564e816ec7165a173c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thanatosAnimator: {fileID: 0}
+  thanatosAnimator: {fileID: 1370134761}
   triggerToSend: launchThanatos
   cinematicCamera: {fileID: 1244158439}
   rigCamera: {fileID: 1930677234}
@@ -9105,7 +9105,7 @@ Transform:
   m_GameObject: {fileID: 1364471691760841}
   serializedVersion: 2
   m_LocalRotation: {x: 8.881784e-15, y: -0.7071068, z: 8.881784e-15, w: -0.7071068}
-  m_LocalPosition: {x: -0.0000010468877, y: 23.949997, z: -6.381561e-13}
+  m_LocalPosition: {x: 11, y: 9, z: -6.381561e-13}
   m_LocalScale: {x: 1.0000006, y: 1, z: 1.0000006}
   m_ConstrainProportionsScale: 0
   m_Children: []

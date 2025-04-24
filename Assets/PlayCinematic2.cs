@@ -40,6 +40,12 @@ public class PlayCinematic2 : MonoBehaviour
         if (isCinematicPlaying == false)
         {
             StartCoroutine(Cinematic());
+            alreadyTriggered = true;
+
+            if (thanatosAnimator != null)
+            {
+                thanatosAnimator.SetTrigger(triggerToSend);
+            }
         }
     }
 
