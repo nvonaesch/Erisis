@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class PlayCinematic2 : MonoBehaviour
 {
+    [Header("Thanatos (avec Animator)")]
+    public Animator thanatosAnimator;
+
+    [Header("Nom de l'animation à lancer")]
+    public string triggerToSend = "launchThanatos";
+
+    private bool alreadyTriggered = false;
+
     [Header("Camera Settings")]
     public Camera cinematicCamera;
     public Camera rigCamera;
