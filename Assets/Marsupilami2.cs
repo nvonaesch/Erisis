@@ -16,6 +16,9 @@ public class Marsupilami2 : MonoBehaviour
     
     public GameObject playerRef;
 
+    [Range(0, 100)]
+    public float alert;
+
     public bool canSeePlayer;
     public bool hasRotated = false;
 
@@ -25,6 +28,8 @@ public class Marsupilami2 : MonoBehaviour
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
     private Mesh mesh;
+    public GameObject targetObject1;
+    public GameObject targetObject2;
     void Start()
     {
         StartCoroutine(FOVRoutine());
@@ -50,7 +55,8 @@ public class Marsupilami2 : MonoBehaviour
     private void FieldOfViewCheck()
     {
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
-
+        MaterialPropertyBlock mpb = new MaterialPropertyBlock();
+        meshRenderer.GetPropertyBlock(mpb);
         if (rangeChecks.Length != 0)
         {
             Transform target = rangeChecks[0].transform;
@@ -63,20 +69,47 @@ public class Marsupilami2 : MonoBehaviour
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                 {
                     canSeePlayer = true;
-                    DrawFieldOfView();
                 }
                 else
+                {
                     canSeePlayer = false;
-                    DrawFieldOfView();
+                }
             }
             else
+            {
                 canSeePlayer = false;
-                DrawFieldOfView();
+            }
         }
         else if (canSeePlayer)
         {
             canSeePlayer = false;
         }
+        if(canSeePlayer && alert<100)
+        {
+            alert += 5;
+        }
+        if(!canSeePlayer && alert>0)
+        {
+            alert--;
+        }
+        
+        if (alert >= 100)
+        {
+            mpb.SetColor("_Color", Color.red);
+            meshRenderer.SetPropertyBlock(mpb);
+        }
+        if (50 <= alert && alert < 100)
+        {
+            Color orange = new Color(1.0f, 0.5f, 0.0f);
+            mpb.SetColor("_Color", orange);
+            meshRenderer.SetPropertyBlock(mpb);
+        }
+        else if(alert < 50)
+        {
+            mpb.SetColor("_Color", Color.yellow);
+            meshRenderer.SetPropertyBlock(mpb);
+        }
+
     }
 
     private Vector3 DirectionFromAngle(float eulerY, float angleInDegrees)
@@ -113,55 +146,41 @@ public class Marsupilami2 : MonoBehaviour
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
         mesh.RecalculateNormals();
-
+        MaterialPropertyBlock mpb = new MaterialPropertyBlock();
+        meshRenderer.GetPropertyBlock(mpb);
         if (canSeePlayer)
         {
-            meshRenderer.material.color = Color.red;
+            mpb.SetColor("_Color", Color.red);
         }
         else
         {
-            meshRenderer.material.color = Color.yellow;
+            mpb.SetColor("_Color", Color.yellow);
         }
-        
+        meshRenderer.SetPropertyBlock(mpb);
+
     }
 
     // Update is called once per frame
     void Update()
     {
         buzz.transform.Translate(Vector3.forward*Time.deltaTime * Speed);
-        if (!hasRotated)
-        {
-            if (center.transform.position.z > 80)
-            {
-                StartCoroutine(demiTourRoutine());
-                Debug.Log("jsuis sorti 1 ");
-            }
-            else if (center.transform.position.z <= 65 )
-            {
-                StartCoroutine(demiTourRoutine());
-                Debug.Log("jsuis sorti 2 ");
-            }
-        }
-        //DrawFieldOfView();
         
     }
-    private IEnumerator demiTourRoutine()
+    
+    private void OnTriggerEnter(Collider other)
     {
-        hasRotated = true;
-        WaitForSeconds wait = new WaitForSeconds(1f);
-        Debug.Log("frr jsuis dedans");
-        yield return wait;
-        buzz.transform.rotation *= Quaternion.Euler(0f, 180, 0f);
-        yield return wait;
-        hasRotated = false;
-        //yield break;
+        if(other.gameObject == targetObject1 || other.gameObject == targetObject2)
+        {
+            Debug.Log("n3ardinmouk");
+            buzz.transform.rotation *= Quaternion.Euler(0f,180f, 0f);
+            Debug.Log(center.transform.position);
+            StartCoroutine(UpdateFOVNextFrame());
+        }
         
     }
-    /*private void OnTriggerEnter(Collider other)
+    private IEnumerator UpdateFOVNextFrame()
     {
-        if(other = "Buzzrotate")
-        {
-            buzz.transform.rotation *= Quaternion.Euler(0f, 180, 0f);
-        }
-    }*/
+        yield return null; 
+        Debug.Log(center.transform.position);
+    }
 }
