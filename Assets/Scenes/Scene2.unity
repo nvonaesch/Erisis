@@ -2184,6 +2184,11 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: f6ea262faf6b49b4295acaaea3d1b366, type: 3}
+--- !u!1 &530036417 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -516098083770646512, guid: 625c596f00dae6547b8ba50a31b14083, type: 3}
+  m_PrefabInstance: {fileID: 1370134759}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &599450832
 GameObject:
   m_ObjectHideFlags: 0
@@ -6139,6 +6144,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f17384b3c4cee448a510b7947d7657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buzz: {fileID: 1370134760}
+  center: {fileID: 530036417}
+  radius: 8
+  angle: 17
+  Speed: 2
+  segments: 20
+  playerRef: {fileID: 930281677}
+  alert: 0
+  canSeePlayer: 0
+  hasRotated: 0
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 128
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 64
+  targetObject1: {fileID: 0}
+  targetObject2: {fileID: 0}
 --- !u!1 &1381941843
 GameObject:
   m_ObjectHideFlags: 0
