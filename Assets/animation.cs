@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class animation : MonoBehaviour
 {
-    private Animator animator;
+    public Animator animator;
     private string moveStateName = "Walk 0";
     private bool alreadyTriggered = false;
+    public GameObject pied;
     public GameObject buzz;
     public GameObject center;
     public float radius;
@@ -32,11 +33,12 @@ public class animation : MonoBehaviour
     private Mesh mesh;
     public GameObject targetObject1;
     public GameObject targetObject2;
+    bool hasStartedBagarre = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
         StartCoroutine(FOVRoutine());
 
         meshFilter = gameObject.AddComponent<MeshFilter>();
@@ -133,12 +135,12 @@ public class animation : MonoBehaviour
 
         int stepCounts = segments + 1;
         float stepAngleSize = angle / (float)segments;
-        List<Vector3> vertices = new List<Vector3> { Vector3.up * 2.5f }; // Point central du cône
+        List<Vector3> vertices = new List<Vector3> { Vector3.up  *0.25f}; // Point central du cône * 2.5f
         List<int> triangles = new List<int>();
         for (int i = 0; i <= stepCounts; i++)
         {
             float currentAngle = -angle / 2 + stepAngleSize * i;
-            Vector3 vertex = DirectionFromAngle(transform.eulerAngles.y, currentAngle) * radius + (Vector3.up * 0.7f);
+            Vector3 vertex = DirectionFromAngle(transform.eulerAngles.y, currentAngle) * radius + (Vector3.up *0.7f * 0.25f); // * 0.7f
             vertices.Add(vertex.normalized * radius * (1 / transform.localScale.x));
         }
         for (int i = 1; i < vertices.Count - 1; i++)
@@ -164,14 +166,35 @@ public class animation : MonoBehaviour
         meshRenderer.SetPropertyBlock(mpb);
 
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject == targetObject1 || other.gameObject == targetObject2)
+        {
+            Debug.Log("n3ardinmouk");
+            buzz.transform.rotation *= Quaternion.Euler(0f, 180f, 0f);
+            Debug.Log(center.transform.position);
+            //StartCoroutine(UpdateFOVNextFrame());
+        }
 
+    }
     // Update is called once per frame
     void Update()
     {
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.IsName(moveStateName))
-        {
-            transform.position += transform.forward * Time.deltaTime;
+        { 
+            pied.transform.position += pied.transform.forward * Time.deltaTime;
         }
+        if(alert >= 100 && !hasStartedBagarre)
+        {
+            animator.Play("bagarre");
+            hasStartedBagarre = true;
+        }
+        if(hasStartedBagarre&& alert < 100)
+        {
+            animator.Play("walk");
+            pied.transform.position += pied.transform.forward * Time.deltaTime;
+        }
+        
     }
 }
