@@ -5,7 +5,8 @@ using UnityEngine;
 public class animation : MonoBehaviour
 {
     public Animator animator;
-    private string moveStateName = "Walk 0";
+    private string moveStateName1 = "Walk 0";
+    private string moveStateName = "walk";
     private bool alreadyTriggered = false;
     public GameObject pied;
     public GameObject buzz;
@@ -14,6 +15,7 @@ public class animation : MonoBehaviour
     [Range(0, 360)]
     public float angle;
 
+    public float power = 500f;
     public float Speed = 2f;
     public int segments = 20;
 
@@ -181,7 +183,7 @@ public class animation : MonoBehaviour
     void Update()
     {
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.IsName(moveStateName))
+        if (stateInfo.IsName(moveStateName) || stateInfo.IsName(moveStateName1))
         { 
             pied.transform.position += pied.transform.forward * Time.deltaTime;
         }
@@ -190,11 +192,28 @@ public class animation : MonoBehaviour
             animator.Play("bagarre");
             hasStartedBagarre = true;
         }
-        if(hasStartedBagarre&& alert < 100)
+        if(hasStartedBagarre && alert < 100)
         {
             animator.Play("walk");
             pied.transform.position += pied.transform.forward * Time.deltaTime;
+            hasStartedBagarre=false;
+        }
+        if (stateInfo.IsName("casting"))
+        {
+            Explode();
         }
         
+    }
+
+    void Explode()
+    {
+        Collider[] colliders = Physics.OverlapSphere(pied.transform.position, radius, targetMask);
+        foreach (Collider hit in colliders) { 
+            Rigidbody rb = hit.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddExplosionForce(power, pied.transform.position, radius);
+            }
+        }
     }
 }
