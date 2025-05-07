@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Erisis.sln"
+    "dotnet.defaultSolution": "Projet Reamix 4A.sln"
 }
