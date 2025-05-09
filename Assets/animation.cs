@@ -212,7 +212,7 @@ public class animation : MonoBehaviour
             Rigidbody rb = hit.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.AddExplosionForce(power, pied.transform.position, radius);
+                rb.AddExplosionForce(power, pied.transform.position, radius, 0.2f);
             }
         }
     }
