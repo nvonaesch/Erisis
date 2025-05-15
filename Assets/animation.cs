@@ -7,6 +7,12 @@ public class animation : MonoBehaviour
     public Animator animator;
     private string moveStateName1 = "Walk 0";
     private string moveStateName = "walk";
+    public GameObject Hypnos_object;
+    public Vector3 positionInvocation;
+    public Animator Hypnos;
+    public Animator Titi;
+    private string Titilancement = "Walk";
+    private string Hypnoslancement = "Magic";
     private bool alreadyTriggered = false;
     public GameObject pied;
     public GameObject buzz;
@@ -19,9 +25,10 @@ public class animation : MonoBehaviour
     public float Speed = 2f;
     public int segments = 20;
 
+    private bool dessinDebut = false;
     public GameObject playerRef;
 
-    [Range(0, 100)]
+    [Range(0, 107)]
     public float alert;
 
     public bool canSeePlayer;
@@ -40,6 +47,7 @@ public class animation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Hypnos_object.SetActive(false);
         animator = GetComponentInChildren<Animator>();
         StartCoroutine(FOVRoutine());
 
@@ -48,7 +56,7 @@ public class animation : MonoBehaviour
         meshRenderer.material = new Material(Shader.Find("Standard"));
         mesh = new Mesh();
         meshFilter.mesh = mesh;
-        DrawFieldOfView();
+        //DrawFieldOfView();
 
     }
     private IEnumerator FOVRoutine()
@@ -93,7 +101,7 @@ public class animation : MonoBehaviour
         {
             canSeePlayer = false;
         }
-        if (canSeePlayer && alert < 100)
+        if (canSeePlayer && alert < 107)
         {
             alert += 5;
         }
@@ -184,7 +192,12 @@ public class animation : MonoBehaviour
     {
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.IsName(moveStateName) || stateInfo.IsName(moveStateName1))
-        { 
+        {
+            if (!dessinDebut)
+            {
+                DrawFieldOfView();
+                dessinDebut = true;
+            }
             pied.transform.position += pied.transform.forward * Time.deltaTime;
         }
         if(alert >= 100 && !hasStartedBagarre)
@@ -200,12 +213,12 @@ public class animation : MonoBehaviour
         }
         if (stateInfo.IsName("casting"))
         {
-            Explode();
+            StartCoroutine(Explode());
         }
         
     }
 
-    void Explode()
+    IEnumerator Explode()
     {
         Collider[] colliders = Physics.OverlapSphere(pied.transform.position, radius, targetMask);
         foreach (Collider hit in colliders) { 
@@ -214,6 +227,12 @@ public class animation : MonoBehaviour
             {
                 rb.AddExplosionForce(power, pied.transform.position, radius, 0.2f);
             }
+            Hypnos_object.transform.position = positionInvocation;
+            Hypnos_object.SetActive(true);
+            positionInvocation = rb.transform.position + rb.transform.forward * 5f;
+            Hypnos.Play(Hypnoslancement);
+            yield return new WaitForSeconds(3f);
+            Hypnos_object.SetActive(false);
         }
     }
 }

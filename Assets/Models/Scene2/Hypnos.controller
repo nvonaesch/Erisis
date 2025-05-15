@@ -51,7 +51,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: New State
+  m_Name: Marche_hyp
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -64,7 +64,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 4247319217239115873, guid: 9095bd6bebcf5df41a5791580c16b74b, type: 3}
+  m_Motion: {fileID: -203655887218126122, guid: 489a2b97f477ec049959844ff11789a5, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

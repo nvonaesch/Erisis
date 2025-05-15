@@ -10,6 +10,12 @@ public class PlayCinematic2 : MonoBehaviour
     [Header("Nom de l'animation à lancer")]
     public string triggerToSend = "launchThanatos";
 
+    public Animator Titi;
+    public Animator Titi1;
+    public Animator Titi2;
+    public Animator Titi3;
+    private string Titilancement = "Walk";
+
     public GameObject mouvement;
 
     private bool alreadyTriggered = false;
@@ -49,6 +55,10 @@ public class PlayCinematic2 : MonoBehaviour
             if (thanatosAnimator != null)
             {
                 thanatosAnimator.SetTrigger(triggerToSend);
+                Titi.Play(Titilancement);
+                Titi1.Play(Titilancement);
+                Titi2.Play(Titilancement);
+                Titi3.Play(Titilancement);
             }
             
         }
