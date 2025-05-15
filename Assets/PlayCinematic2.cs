@@ -10,6 +10,8 @@ public class PlayCinematic2 : MonoBehaviour
     [Header("Nom de l'animation à lancer")]
     public string triggerToSend = "launchThanatos";
 
+    public GameObject mouvement;
+
     private bool alreadyTriggered = false;
 
     [Header("Camera Settings")]
@@ -22,6 +24,8 @@ public class PlayCinematic2 : MonoBehaviour
     private bool isCinematicPlaying = false;
 
     public MonoBehaviour ScriptDeplacement;
+    public Collider triggerCollider;
+
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +50,7 @@ public class PlayCinematic2 : MonoBehaviour
             {
                 thanatosAnimator.SetTrigger(triggerToSend);
             }
+            
         }
     }
 
@@ -64,5 +69,10 @@ public class PlayCinematic2 : MonoBehaviour
 
         isCinematicPlaying = false;
         ScriptDeplacement.enabled = true;
+        if (triggerCollider != null)
+        {
+            triggerCollider.enabled = false; // Désactive le collider pour empêcher le trigger
+        }
+
     }
 }
