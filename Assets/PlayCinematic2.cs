@@ -55,13 +55,23 @@ public class PlayCinematic2 : MonoBehaviour
             if (thanatosAnimator != null)
             {
                 thanatosAnimator.SetTrigger(triggerToSend);
-                Titi.Play(Titilancement);
-                Titi1.Play(Titilancement);
-                Titi2.Play(Titilancement);
-                Titi3.Play(Titilancement);
+                //Titi.Play(Titilancement);
+                //Titi1.Play(Titilancement);
+                //Titi2.Play(Titilancement);
+                //Titi3.Play(Titilancement);
+                StartCoroutine(Cinematique_Marche());
             }
             
         }
+    }
+
+    private IEnumerator Cinematique_Marche()
+    {
+        yield return new WaitForSeconds(3f);
+        Titi.Play(Titilancement);
+        Titi1.Play(Titilancement);
+        Titi2.Play(Titilancement);
+        Titi3.Play(Titilancement);
     }
 
     private IEnumerator Cinematic()
