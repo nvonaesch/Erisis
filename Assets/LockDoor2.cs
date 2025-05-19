@@ -22,7 +22,7 @@ public class LockDoor2 : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (isLocked == false)
+        if (other.CompareTag("Player") && isLocked == false) 
         {
             door.transform.Rotate(0f, 90f, 0f);
             isLocked = true;

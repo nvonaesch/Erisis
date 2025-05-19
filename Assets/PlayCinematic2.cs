@@ -67,7 +67,7 @@ public class PlayCinematic2 : MonoBehaviour
 
     private IEnumerator Cinematique_Marche()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(3.5f);
         Titi.Play(Titilancement);
         Titi1.Play(Titilancement);
         Titi2.Play(Titilancement);
