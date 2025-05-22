@@ -2,18 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class animation : MonoBehaviour
+public class marcheAnim : MonoBehaviour
 {
-    public Animator animator;
-    private string moveStateName1 = "Walk 0";
-    private string moveStateName = "walk";
-    public GameObject Hypnos_object;
-    public Vector3 positionInvocation;
-    public Animator Hypnos;
     public Animator Titi;
     private string Titilancement = "Walk";
-    private string Hypnoslancement = "Magic";
-    private bool alreadyTriggered = false;
     public GameObject pied;
     public GameObject buzz;
     public GameObject center;
@@ -43,12 +35,10 @@ public class animation : MonoBehaviour
     public GameObject targetObject1;
     public GameObject targetObject2;
     bool hasStartedBagarre = false;
-
     // Start is called before the first frame update
     void Start()
     {
-        Hypnos_object.SetActive(false);
-        animator = GetComponentInChildren<Animator>();
+        Titi = GetComponentInChildren<Animator>();
         StartCoroutine(FOVRoutine());
 
         meshFilter = gameObject.AddComponent<MeshFilter>();
@@ -56,9 +46,8 @@ public class animation : MonoBehaviour
         meshRenderer.material = new Material(Shader.Find("Standard"));
         mesh = new Mesh();
         meshFilter.mesh = mesh;
-        //DrawFieldOfView();
-
     }
+
     private IEnumerator FOVRoutine()
     {
         WaitForSeconds wait = new WaitForSeconds(0.2f);
@@ -145,12 +134,12 @@ public class animation : MonoBehaviour
 
         int stepCounts = segments + 1;
         float stepAngleSize = angle / (float)segments;
-        List<Vector3> vertices = new List<Vector3> { Vector3.up  *0.25f}; // Point central du cône * 2.5f
+        List<Vector3> vertices = new List<Vector3> { Vector3.up * 0.25f }; // Point central du cône * 2.5f
         List<int> triangles = new List<int>();
         for (int i = 0; i <= stepCounts; i++)
         {
             float currentAngle = -angle / 2 + stepAngleSize * i;
-            Vector3 vertex = DirectionFromAngle(transform.eulerAngles.y, currentAngle) * radius + (Vector3.up *0.7f * 0.25f); // * 0.7f
+            Vector3 vertex = DirectionFromAngle(transform.eulerAngles.y, currentAngle) * radius + (Vector3.up * 0.7f * 0.25f); // * 0.7f
             vertices.Add(vertex.normalized * radius * (1 / transform.localScale.x));
         }
         for (int i = 1; i < vertices.Count - 1; i++)
@@ -187,11 +176,12 @@ public class animation : MonoBehaviour
         }
 
     }
+
     // Update is called once per frame
     void Update()
     {
-        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.IsName(moveStateName) || stateInfo.IsName(moveStateName1))
+        AnimatorStateInfo stateInfo = Titi.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.IsName(Titilancement))
         {
             if (!dessinDebut)
             {
@@ -199,40 +189,6 @@ public class animation : MonoBehaviour
                 dessinDebut = true;
             }
             pied.transform.position += pied.transform.forward * Time.deltaTime;
-        }
-        if(alert >= 100 && !hasStartedBagarre)
-        {
-            animator.Play("bagarre");
-            hasStartedBagarre = true;
-        }
-        if(hasStartedBagarre && alert < 100)
-        {
-            animator.Play("walk");
-            pied.transform.position += pied.transform.forward * Time.deltaTime;
-            hasStartedBagarre=false;
-        }
-        if (stateInfo.IsName("casting"))
-        {
-            StartCoroutine(Explode());
-        }
-        
-    }
-
-    IEnumerator Explode()
-    {
-        Collider[] colliders = Physics.OverlapSphere(pied.transform.position, radius, targetMask);
-        foreach (Collider hit in colliders) { 
-            Rigidbody rb = hit.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.AddExplosionForce(power, pied.transform.position, radius, 0.2f);
-            }
-            Hypnos_object.transform.position = positionInvocation;
-            Hypnos_object.SetActive(true);
-            positionInvocation = rb.transform.position + rb.transform.forward * 5f;
-            Hypnos.Play(Hypnoslancement);
-            yield return new WaitForSeconds(3f);
-            Hypnos_object.SetActive(false);
         }
     }
 }
