@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class marcheAnim : MonoBehaviour
+public class Marche_Anim2 : MonoBehaviour
 {
+    // Start is called before the first frame update
     public Animator Titi;
     private string Titilancement = "Walk";
     public GameObject pied;
@@ -117,19 +118,24 @@ public class marcheAnim : MonoBehaviour
         }
 
     }
-
-    private Vector3 DirectionFromAngle(float eulerY, float angleInDegrees)
+    private Vector3 DirectionFromAngle(float angleInDegrees)
     {
-        angleInDegrees += eulerY;
-
-
-        return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+        return Quaternion.Euler(0, angleInDegrees, 0) * transform.forward;
+        //return Quaternion.AngleAxis(angleInDegrees, Vector3.up) * transform.forward;
     }
+
+
+
+    //private Vector3 DirectionFromAngle(float eulerY, float angleInDegrees)
+    //{
+    //angleInDegrees += eulerY;
+    //return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+    //}
 
     void DrawFieldOfView()
     {
-        Vector3 frontLeft = DirectionFromAngle(transform.eulerAngles.y, -angle / 2) * radius;
-        Vector3 frontRight = DirectionFromAngle(transform.eulerAngles.y, angle / 2) * radius;
+        Vector3 frontLeft = DirectionFromAngle(-angle / 2 + transform.eulerAngles.y) * radius;
+        Vector3 frontRight = DirectionFromAngle(angle / 2 + transform.eulerAngles.y) * radius;
 
 
         int stepCounts = segments + 1;
@@ -138,9 +144,12 @@ public class marcheAnim : MonoBehaviour
         List<int> triangles = new List<int>();
         for (int i = 0; i <= stepCounts; i++)
         {
+            //float currentAngle = -angle / 2 + stepAngleSize * i;
+            //Vector3 vertex = DirectionFromAngle(transform.eulerAngles.y, currentAngle) * radius + (Vector3.forward * 0.7f * 0.25f); // * 0.7f
+            //vertices.Add(vertex.normalized * radius * (1 / transform.localScale.x));
             float currentAngle = -angle / 2 + stepAngleSize * i;
-            Vector3 vertex = DirectionFromAngle(transform.eulerAngles.y, currentAngle) * radius + (Vector3.up * 0.7f * 0.25f); // * 0.7f
-            vertices.Add(vertex.normalized * radius * (1 / transform.localScale.x));
+            Vector3 vertex = DirectionFromAngle(currentAngle + transform.eulerAngles.y + 185f) * radius + Vector3.up * 0.25f  ;
+            vertices.Add(vertex);
         }
         for (int i = 1; i < vertices.Count - 1; i++)
         {
@@ -169,8 +178,9 @@ public class marcheAnim : MonoBehaviour
     {
         if (other.gameObject == targetObject1 || other.gameObject == targetObject2)
         {
-            Debug.Log("n3ardinmouk");
-            buzz.transform.rotation *= Quaternion.Euler(0f, 180f, 0f);
+            Debug.Log("????");
+            //buzz.transform.rotation *= Quaternion.Euler(0f, 180f, 0f);
+            transform.rotation *= Quaternion.Euler(0f, 180f, 0f);
             Debug.Log(center.transform.position);
             //StartCoroutine(UpdateFOVNextFrame());
         }
@@ -188,7 +198,7 @@ public class marcheAnim : MonoBehaviour
                 DrawFieldOfView();
                 dessinDebut = true;
             }
-            pied.transform.position += pied.transform.forward * Time.deltaTime * 0.75f;
+            pied.transform.position += pied.transform.forward * Time.deltaTime *0.75f;
         }
     }
 }

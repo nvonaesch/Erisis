@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayCinematic2 : MonoBehaviour
@@ -14,8 +15,10 @@ public class PlayCinematic2 : MonoBehaviour
     public Animator Titi1;
     public Animator Titi2;
     public Animator Titi3;
+    public Animator Titi4;
+    public Animator Titi5;
     private string Titilancement = "Walk";
-
+    private string Than = "Walk 0";
     public GameObject mouvement;
 
     private bool alreadyTriggered = false;
@@ -42,7 +45,16 @@ public class PlayCinematic2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        AnimatorStateInfo stateInfo = thanatosAnimator.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.IsName(Than))
+        {
+            Titi.Play(Titilancement);
+            Titi1.Play(Titilancement);
+            Titi2.Play(Titilancement);
+            Titi3.Play(Titilancement);
+            Titi4.Play(Titilancement);
+            Titi5.Play(Titilancement);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -55,24 +67,26 @@ public class PlayCinematic2 : MonoBehaviour
             if (thanatosAnimator != null)
             {
                 thanatosAnimator.SetTrigger(triggerToSend);
-                //Titi.Play(Titilancement);
-                //Titi1.Play(Titilancement);
-                //Titi2.Play(Titilancement);
-                //Titi3.Play(Titilancement);
-                StartCoroutine(Cinematique_Marche());
+
+                //StartCoroutine(Cinematique_Marche());
+                
             }
             
         }
     }
 
-    private IEnumerator Cinematique_Marche()
+    /*private IEnumerator Cinematique_Marche()
     {
-        yield return new WaitForSeconds(3.5f);
-        Titi.Play(Titilancement);
-        Titi1.Play(Titilancement);
-        Titi2.Play(Titilancement);
-        Titi3.Play(Titilancement);
-    }
+        
+        AnimatorStateInfo stateInfo = thanatosAnimator.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.IsName(Than))
+        {
+            Titi.Play(Titilancement);
+            Titi1.Play(Titilancement);
+            Titi2.Play(Titilancement);
+            Titi3.Play(Titilancement);
+        }
+    }*/
 
     private IEnumerator Cinematic()
     {
