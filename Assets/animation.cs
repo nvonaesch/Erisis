@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class animation : MonoBehaviour
 {
@@ -30,7 +31,7 @@ public class animation : MonoBehaviour
 
     [Range(0, 107)]
     public float alert;
-
+    public bool hasAlerted = false;
     public bool canSeePlayer;
     public bool hasRotated = false;
 
@@ -103,7 +104,7 @@ public class animation : MonoBehaviour
         }
         if (canSeePlayer && alert < 107)
         {
-            alert += 5;
+            alert += 10;
         }
         if (!canSeePlayer && alert > 0)
         {
@@ -200,10 +201,11 @@ public class animation : MonoBehaviour
             }
             pied.transform.position += pied.transform.forward * Time.deltaTime;
         }
-        if(alert >= 100 && !hasStartedBagarre)
+        if(alert >= 100 && !hasStartedBagarre )
         {
             animator.Play("bagarre");
             hasStartedBagarre = true;
+            
         }
         if(hasStartedBagarre && alert < 100)
         {
@@ -211,11 +213,17 @@ public class animation : MonoBehaviour
             pied.transform.position += pied.transform.forward * Time.deltaTime;
             hasStartedBagarre=false;
         }
-        if (stateInfo.IsName("casting"))
+        if (stateInfo.IsName("casting") && !hasAlerted)
         {
             StartCoroutine(Explode());
+            
         }
-        
+        if (stateInfo.IsName("casting") && hasAlerted)
+        {
+            StartCoroutine(BOOM());
+            
+        }
+
     }
 
     IEnumerator Explode()
@@ -233,6 +241,23 @@ public class animation : MonoBehaviour
             Hypnos.Play(Hypnoslancement);
             yield return new WaitForSeconds(3f);
             Hypnos_object.SetActive(false);
+            hasAlerted = true;
         }
+    }
+    IEnumerator BOOM()
+    {
+        Collider[] colliders = Physics.OverlapSphere(pied.transform.position, radius, targetMask);
+        foreach (Collider hit in colliders)
+        {
+            Rigidbody rb = hit.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddExplosionForce(100000, pied.transform.position, radius, 0.2f);
+            }
+
+        }
+        yield return new WaitForSeconds(3f);
+        DontDestroyOnLoad(playerRef);
+        SceneManager.LoadScene("Scene1", LoadSceneMode.Single);
     }
 }

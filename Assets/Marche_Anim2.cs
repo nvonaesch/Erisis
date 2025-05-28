@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Marche_Anim2 : MonoBehaviour
 {
@@ -36,6 +37,9 @@ public class Marche_Anim2 : MonoBehaviour
     public GameObject targetObject1;
     public GameObject targetObject2;
     bool hasStartedBagarre = false;
+    public event Action OnAlertMax;
+
+    private bool alertAtMaxAlreadySent = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -93,7 +97,7 @@ public class Marche_Anim2 : MonoBehaviour
         }
         if (canSeePlayer && alert < 107)
         {
-            alert += 5;
+            alert += 8;
         }
         if (!canSeePlayer && alert > 0)
         {
@@ -199,6 +203,16 @@ public class Marche_Anim2 : MonoBehaviour
                 dessinDebut = true;
             }
             pied.transform.position += pied.transform.forward * Time.deltaTime *0.75f;
+        }
+        if (alert < 100)
+        {
+            alertAtMaxAlreadySent = true;
+        }
+
+        if (alert >= 100 && !alertAtMaxAlreadySent)
+        {
+            alertAtMaxAlreadySent = true;
+            OnAlertMax?.Invoke();
         }
     }
 }
