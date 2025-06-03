@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class SwitchCameraOnTrigger : MonoBehaviour
 {
+    [Header("Param Echidna")]
+    public Animator Echidna;
+    private string Echidlancement = "anim";
+
     public float explosionForce = 10f;
     public Transform playerRig;
     public Transform explosionOrigin;
@@ -38,6 +42,7 @@ public class SwitchCameraOnTrigger : MonoBehaviour
 
     private IEnumerator PlayCinematic()
     {
+        Echidna.Play(Echidlancement);
         isCinematicPlaying = true;
 
         rigCamera.gameObject.SetActive(false);
@@ -64,5 +69,6 @@ public class SwitchCameraOnTrigger : MonoBehaviour
         
         Debug.Log("BOOM");
         Destroy(gameObject);
+        Echidna.Play("idle");
     }
 }
