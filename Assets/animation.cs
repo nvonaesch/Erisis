@@ -216,9 +216,10 @@ public class animation : MonoBehaviour
         if (stateInfo.IsName("casting") && !hasAlerted)
         {
             StartCoroutine(Explode());
+
             
         }
-        if (stateInfo.IsName("casting") && hasAlerted)
+        if (stateInfo.IsName("casting") && hasAlerted && alert>=100)
         {
             StartCoroutine(BOOM());
             
@@ -233,7 +234,7 @@ public class animation : MonoBehaviour
             Rigidbody rb = hit.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.AddExplosionForce(power, pied.transform.position, radius, 0.2f);
+                rb.AddExplosionForce(power, pied.transform.position, radius);
             }
             Hypnos_object.transform.position = positionInvocation;
             Hypnos_object.SetActive(true);
@@ -241,7 +242,9 @@ public class animation : MonoBehaviour
             Hypnos.Play(Hypnoslancement);
             yield return new WaitForSeconds(3f);
             Hypnos_object.SetActive(false);
+            
             hasAlerted = true;
+            
         }
     }
     IEnumerator BOOM()
@@ -252,11 +255,11 @@ public class animation : MonoBehaviour
             Rigidbody rb = hit.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.AddExplosionForce(100000, pied.transform.position, radius, 0.2f);
+                rb.AddExplosionForce(100000, pied.transform.position, radius, 2f);
             }
 
         }
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         DontDestroyOnLoad(playerRef);
         SceneManager.LoadScene("Scene1", LoadSceneMode.Single);
     }

@@ -11346,7 +11346,7 @@ MonoBehaviour:
   center: {fileID: 1687381114}
   radius: 8
   angle: 50
-  power: 300
+  power: 350
   Speed: 2
   segments: 20
   playerRef: {fileID: 7313654229056763210}
@@ -55652,7 +55652,7 @@ Transform:
   m_GameObject: {fileID: 7313654229056763210}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: 28.971, y: 19.726, z: 61.668407}
+  m_LocalPosition: {x: 28.971, y: 19.28, z: 40.17}
   m_LocalScale: {x: 1, y: 0.92102, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
