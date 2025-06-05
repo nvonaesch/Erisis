@@ -260,7 +260,7 @@ public class animation : MonoBehaviour
 
         }
         yield return new WaitForSeconds(2f);
-        DontDestroyOnLoad(playerRef);
+        //DontDestroyOnLoad(playerRef);
         SceneManager.LoadScene("Scene1", LoadSceneMode.Single);
     }
 }
